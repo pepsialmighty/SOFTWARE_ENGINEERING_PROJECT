@@ -1,67 +1,67 @@
-import React, { useState, useCallback, Fragment } from "react";
-import axios from "axios";
+import React, { useState, useCallback, Fragment } from 'react'
+import axios from 'axios'
 
-import Cell from "./Cell";
-import { Sheet as StyledSheet } from "./styles";
+import Cell from './Cell'
+import { Sheet as StyledSheet } from './styles'
 
 const getColumnName = (index) =>
-  String.fromCharCode("A".charCodeAt(0) + index - 1);
+  String.fromCharCode('A'.charCodeAt(0) + index - 1)
 
 const Sheet = ({ numberOfRows, numberOfColumns }) => {
-  const [data, setData] = useState({});
-  const [fetchedData, setFetchedData] = useState(null);
+  const [data, setData] = useState({})
+  const [fetchedData, setFetchedData] = useState(null)
 
   const setCellValue = useCallback(
     ({ row, column, value }) => {
-      const newData = { ...data };
+      const newData = { ...data }
 
-      newData[`${column}${row}`] = value;
-      setData(newData);
+      newData[`${column}${row}`] = value
+      setData(newData)
     },
-    [data, setData]
-  );
+    [data, setData],
+  )
 
   const computeCell = useCallback(
     ({ row, column }) => {
-      const cellContent = data[`${column}${row}`];
+      const cellContent = data[`${column}${row}`]
       if (cellContent) {
-        if (cellContent.charAt(0) === "=") {
+        if (cellContent.charAt(0) === '=') {
           // This regex converts = "A1+A2" to ["A1","+","A2"]
-          const expression = cellContent.substr(1).split(/([+*-/])/g);
+          const expression = cellContent.substr(1).split(/([+*-/])/g)
 
-          let subStitutedExpression;
+          let subStitutedExpression
 
           expression.forEach((item) => {
             // Regex to test if it is of form alphabet followed by number ex: A1
-            if (/^[A-z][0-9]$/g.test(item || "")) {
-              subStitutedExpression += data[(item || "").toUpperCase()] || 0;
+            if (/^[A-z][0-9]$/g.test(item || '')) {
+              subStitutedExpression += data[(item || '').toUpperCase()] || 0
             } else if (/S/.test(item)) {
               axios
-                .get("https://jsonplaceholder.typicode.com/todos/1")
+                .get('https://jsonplaceholder.typicode.com/todos/1')
                 .then((res) => {
-                  const value = res.data;
-                  setFetchedData(value);
-                });
+                  const value = res.data
+                  setFetchedData(value)
+                })
               // setFetchedData("haha");
-              subStitutedExpression = fetchedData && fetchedData.id;
+              subStitutedExpression = fetchedData && fetchedData.id
             } else {
-              subStitutedExpression += item;
+              subStitutedExpression += item
             }
-          });
+          })
 
           // console.log("subStitutedExpression", subStitutedExpression);
           // @shame: Need to comeup with parser to replace eval and to support more expressions
           try {
-            return eval(subStitutedExpression);
+            return eval(subStitutedExpression)
           } catch (error) {
-            return "ERROR!";
+            return 'ERROR!'
           }
         }
-        return cellContent;
+        return cellContent
       }
     },
-    [data, fetchedData]
-  );
+    [data, fetchedData],
+  )
 
   return (
     <StyledSheet numberOfColumns={numberOfColumns}>
@@ -73,7 +73,7 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
               {Array(numberOfColumns)
                 .fill()
                 .map((n, j) => {
-                  const columnName = getColumnName(j);
+                  const columnName = getColumnName(j)
                   return (
                     <Cell
                       rowIndex={i}
@@ -84,13 +84,13 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
                       computeCell={computeCell}
                       key={`${columnName}${i}`}
                     />
-                  );
+                  )
                 })}
             </Fragment>
-          );
+          )
         })}
     </StyledSheet>
-  );
-};
+  )
+}
 
-export default Sheet;
+export default Sheet
