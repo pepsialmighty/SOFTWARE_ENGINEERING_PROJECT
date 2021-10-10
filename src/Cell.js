@@ -1,6 +1,6 @@
-import React, { useCallback, useState, memo, useMemo } from "react";
+import React, { useCallback, useState, memo, useMemo } from 'react'
 
-import { Input, Header } from "./styles";
+import { Input, Header } from './styles'
 
 const Cell = ({
   rowIndex,
@@ -10,36 +10,35 @@ const Cell = ({
   computeCell,
   currentValue,
 }) => {
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(false)
 
   const value = useMemo(() => {
     if (edit) {
-      return currentValue || "";
+      return currentValue || ''
     }
-    return computeCell({ row: rowIndex, column: columnName });
-  }, [edit, computeCell, rowIndex, columnName, currentValue]);
-
+    return computeCell({ row: rowIndex, column: columnName })
+  }, [edit, computeCell, rowIndex, columnName, currentValue])
   const handleChange = useCallback(
     (event) => {
       setCellValue({
         row: rowIndex,
         column: columnName,
         value: event.target.value,
-      });
+      })
     },
-    [rowIndex, columnName, setCellValue]
-  );
+    [rowIndex, columnName, setCellValue],
+  )
 
   if (columnIndex === 0 && rowIndex === 0) {
-    return <Header />;
+    return <Header />
   }
 
   if (columnIndex === 0) {
-    return <Header>{rowIndex}</Header>;
+    return <Header>{rowIndex}</Header>
   }
 
   if (rowIndex === 0) {
-    return <Header>{columnName}</Header>;
+    return <Header>{columnName}</Header>
   }
 
   return (
@@ -47,10 +46,10 @@ const Cell = ({
       onBlur={() => setEdit(false)}
       onFocus={() => setEdit(true)}
       value={value}
-      type="text"
+      type='text'
       onChange={handleChange}
     />
-  );
-};
+  )
+}
 
-export default memo(Cell);
+export default memo(Cell)

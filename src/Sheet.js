@@ -10,6 +10,7 @@ const getColumnName = (index) =>
 const Sheet = ({ numberOfRows, numberOfColumns }) => {
   const [data, setData] = useState({})
   const [fetchedData, setFetchedData] = useState(null)
+  const [fetched, setFetched] = useState(false)
 
   const setCellValue = useCallback(
     ({ row, column, value }) => {
@@ -27,20 +28,23 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
       if (cellContent) {
         if (cellContent.charAt(0) === '=') {
           // This regex converts = "A1+A2" to ["A1","+","A2"]
-          const expression = cellContent.substr(1).split(/([+*-/])/g)
+          const expression = cellContent.substr(1).split(/([+*-])/g)
 
-          let subStitutedExpression
+          let subStitutedExpression = ''
 
           expression.forEach((item) => {
             // Regex to test if it is of form alphabet followed by number ex: A1
             if (/^[A-z][0-9]$/g.test(item || '')) {
               subStitutedExpression += data[(item || '').toUpperCase()] || 0
-            } else if (/S/.test(item)) {
+            } else if (/S/.test(item.toUpperCase())) {
               axios
                 .get('https://jsonplaceholder.typicode.com/todos/1')
                 .then((res) => {
                   const value = res.data
-                  setFetchedData(value)
+                  if (fetched === false) {
+                    setFetched(true)
+                    setFetchedData(value)
+                  }
                 })
               // setFetchedData("haha");
               subStitutedExpression = fetchedData && fetchedData.id
@@ -49,9 +53,9 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
             }
           })
 
-          // console.log("subStitutedExpression", subStitutedExpression);
           // @shame: Need to comeup with parser to replace eval and to support more expressions
           try {
+            console.log(data)
             return eval(subStitutedExpression)
           } catch (error) {
             return 'ERROR!'
@@ -59,6 +63,7 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
         }
         return cellContent
       }
+      return ''
     },
     [data, fetchedData],
   )
