@@ -27,9 +27,9 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
       if (cellContent) {
         if (cellContent.charAt(0) === "=") {
           // This regex converts = "A1+A2" to ["A1","+","A2"]
-          const expression = cellContent.substr(1).split(/([+*-/])/g);
+          const expression = cellContent.substr(1).split(/([+*-])/g);
 
-          let subStitutedExpression;
+          let subStitutedExpression = "";
 
           expression.forEach((item) => {
             // Regex to test if it is of form alphabet followed by number ex: A1
@@ -49,7 +49,6 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
             }
           });
 
-          // console.log("subStitutedExpression", subStitutedExpression);
           // @shame: Need to comeup with parser to replace eval and to support more expressions
           try {
             return eval(subStitutedExpression);
@@ -59,6 +58,7 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
         }
         return cellContent;
       }
+      return "";
     },
     [data, fetchedData]
   );
