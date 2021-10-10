@@ -17,7 +17,7 @@ const Cell = ({
       return currentValue || "";
     }
     return computeCell({ row: rowIndex, column: columnName });
-  }, [edit, currentValue, rowIndex, columnName, computeCell]);
+  }, [edit, computeCell, rowIndex, columnName, currentValue]);
 
   const handleChange = useCallback(
     (event) => {

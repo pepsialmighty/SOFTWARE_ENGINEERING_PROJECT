@@ -1,4 +1,5 @@
 import React, { useState, useCallback, Fragment } from "react";
+import axios from "axios";
 
 import Cell from "./Cell";
 import { Sheet as StyledSheet } from "./styles";
@@ -8,7 +9,7 @@ const getColumnName = (index) =>
 
 const Sheet = ({ numberOfRows, numberOfColumns }) => {
   const [data, setData] = useState({});
-  const [fetchedData, setFetchedData] = useState();
+  const [fetchedData, setFetchedData] = useState(null);
 
   const setCellValue = useCallback(
     ({ row, column, value }) => {
@@ -26,33 +27,32 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
       if (cellContent) {
         if (cellContent.charAt(0) === "=") {
           // This regex converts = "A1+A2" to ["A1","+","A2"]
-          const expression = cellContent.substr(1).split(/([+*-])/g);
+          const expression = cellContent.substr(1).split(/([+*-/])/g);
 
-          let subStitutedExpression = "";
+          let subStitutedExpression;
 
           expression.forEach((item) => {
             // Regex to test if it is of form alphabet followed by number ex: A1
             if (/^[A-z][0-9]$/g.test(item || "")) {
               subStitutedExpression += data[(item || "").toUpperCase()] || 0;
-            } else if (/SPARQL/.test(item)) {
-              console.log("ITS IS");
-              fetch("https://jsonplaceholder.typicode.com/todos/1")
-                .then((response) => response.json())
-                .then((json) => {
-                  setFetchedData(json.id);
+            } else if (/S/.test(item)) {
+              axios
+                .get("https://jsonplaceholder.typicode.com/todos/1")
+                .then((res) => {
+                  const value = res.data;
+                  setFetchedData(value);
                 });
-              subStitutedExpression += fetchedData;
+              // setFetchedData("haha");
+              subStitutedExpression = fetchedData && fetchedData.id;
             } else {
               subStitutedExpression += item;
             }
           });
 
-          console.log("subStitutedExpression", subStitutedExpression);
-
+          // console.log("subStitutedExpression", subStitutedExpression);
           // @shame: Need to comeup with parser to replace eval and to support more expressions
           try {
             return eval(subStitutedExpression);
-            // return subStitutedExpression;
           } catch (error) {
             return "ERROR!";
           }
