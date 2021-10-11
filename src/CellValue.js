@@ -1,13 +1,23 @@
 import React from 'react'
-
 export default function CellValue({ data, handleChange }) {
+  console.log('data', data)
   return (
     <>
-      {typeof data === 'object' ? (
+      {typeof data === 'string' ? (
         <input value={data.title} type='text' onChange={handleChange} />
       ) : (
         <select>
-          <option value='123'>123</option>
+          {data &&
+            // data.map((item, index) => (
+            //   <option key={`${item}_${index}`} value={item}>
+            //     {item}
+            //   </option>
+            // ))
+            Object.values(data).map((item, index) => (
+              <option key={`${item}_${index}`} value={item}>
+                {item.toString()}
+              </option>
+            ))}
         </select>
       )}
     </>

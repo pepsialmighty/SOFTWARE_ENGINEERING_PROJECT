@@ -1,7 +1,7 @@
-import React from "react";
-import { Reset } from "styled-reset";
+import React from 'react'
+import { Reset } from 'styled-reset'
 
-import Sheet from "./Sheet";
+import Sheet from './Sheet'
 
 const App = () => {
   return (
@@ -9,7 +9,7 @@ const App = () => {
       <Reset />
       <Sheet numberOfRows={10} numberOfColumns={10} />
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
