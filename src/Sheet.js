@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Fragment } from "react";
+import React, { useState, useCallback, useEffect, Fragment } from "react";
 import axios from "axios";
 
 import Cell from "./Cell";
@@ -10,6 +10,7 @@ const getColumnName = (index) =>
 const Sheet = ({ numberOfRows, numberOfColumns }) => {
   const [data, setData] = useState({});
   const [fetchedData, setFetchedData] = useState(null);
+  const [valueData, setValueData] = useState(null);
 
   const setCellValue = useCallback(
     ({ row, column, value }) => {
@@ -20,6 +21,10 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
     },
     [data, setData]
   );
+
+  useEffect(() => {
+    setValueData(fetchedData);
+  }, [fetchedData]);
 
   const computeCell = useCallback(
     ({ row, column }) => {
@@ -43,7 +48,7 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
                   setFetchedData(value);
                 });
               // setFetchedData("haha");
-              subStitutedExpression = fetchedData && fetchedData.id;
+              // subStitutedExpression = valueData && valueData.id;
             } else {
               subStitutedExpression += item;
             }
@@ -60,8 +65,10 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
       }
       return "";
     },
-    [data, fetchedData]
+    [data]
   );
+
+  console.log(fetchedData);
 
   return (
     <StyledSheet numberOfColumns={numberOfColumns}>
