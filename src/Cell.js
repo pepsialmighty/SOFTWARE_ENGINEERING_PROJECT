@@ -1,4 +1,5 @@
 import React, { useCallback, useState, memo, useMemo } from 'react'
+import CellValue from './CellValue'
 
 import { Input, Header } from './styles'
 
@@ -56,7 +57,7 @@ const Cell = ({
   return (
     <>
       {currentStatus ? (
-        <span>{value ? value.id : null}</span>
+        <CellValue data={value} handleChange={handleChange} />
       ) : (
         <Input
           onBlur={handleBlur}
