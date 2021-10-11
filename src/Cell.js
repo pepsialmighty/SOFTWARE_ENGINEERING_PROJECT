@@ -18,6 +18,7 @@ const Cell = ({
     }
     return computeCell({ row: rowIndex, column: columnName })
   }, [edit, computeCell, rowIndex, columnName, currentValue])
+
   const handleChange = useCallback(
     (event) => {
       setCellValue({

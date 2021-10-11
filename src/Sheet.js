@@ -55,7 +55,7 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
 
           // @shame: Need to comeup with parser to replace eval and to support more expressions
           try {
-            console.log(data)
+            console.log(subStitutedExpression)
             return eval(subStitutedExpression)
           } catch (error) {
             return 'ERROR!'
@@ -65,7 +65,7 @@ const Sheet = ({ numberOfRows, numberOfColumns }) => {
       }
       return ''
     },
-    [data, fetchedData],
+    [data, fetchedData, fetched],
   )
 
   return (
