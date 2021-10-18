@@ -1,10 +1,11 @@
-import React from 'react'
+import React from "react";
+
 export default function CellValue({ data, handleChange }) {
-  console.log('data', data)
+  console.log("data", data);
   return (
     <>
-      {typeof data === 'string' ? (
-        <input value={data.title} type='text' onChange={handleChange} />
+      {typeof data === "string" ? (
+        <input value={data.title} type="text" onChange={handleChange} />
       ) : (
         <select>
           {data &&
@@ -21,5 +22,5 @@ export default function CellValue({ data, handleChange }) {
         </select>
       )}
     </>
-  )
+  );
 }

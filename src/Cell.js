@@ -1,7 +1,7 @@
-import React, { useCallback, useState, memo, useMemo } from 'react'
-import CellValue from './CellValue'
+import React, { useCallback, useState, memo, useMemo } from "react";
+import CellValue from "./CellValue";
 
-import { Input, Header } from './styles'
+import { Input, Header } from "./styles";
 
 const Cell = ({
   rowIndex,
@@ -12,14 +12,14 @@ const Cell = ({
   currentValue,
   currentStatus,
 }) => {
-  const [edit, setEdit] = useState(false)
+  const [edit, setEdit] = useState(false);
   const value = useMemo(() => {
     if (edit) {
-      return currentValue || ''
+      return currentValue || "";
     }
-    return computeCell({ row: rowIndex, column: columnName })
-  }, [edit, computeCell, rowIndex, columnName, currentValue])
-  console.log('value', value)
+    return computeCell({ row: rowIndex, column: columnName });
+  }, [edit, computeCell, rowIndex, columnName, currentValue]);
+  console.log("value", value);
   const handleChange = useCallback(
     (event) => {
       setCellValue({
@@ -27,10 +27,10 @@ const Cell = ({
         column: columnName,
         value: event.target.value,
         // isYell: /S/.test(event.target.value) ? true : false,
-      })
+      });
     },
-    [setCellValue, rowIndex, columnName],
-  )
+    [setCellValue, rowIndex, columnName]
+  );
 
   const handleBlur = (event) => {
     setCellValue({
@@ -38,20 +38,20 @@ const Cell = ({
       column: columnName,
       value: event.target.value,
       isYell: /S/.test(event.target.value) ? true : false,
-    })
-    setEdit(false)
-  }
+    });
+    setEdit(false);
+  };
 
   if (columnIndex === 0 && rowIndex === 0) {
-    return <Header />
+    return <Header />;
   }
 
   if (columnIndex === 0) {
-    return <Header>{rowIndex}</Header>
+    return <Header>{rowIndex}</Header>;
   }
 
   if (rowIndex === 0) {
-    return <Header>{columnName}</Header>
+    return <Header>{columnName}</Header>;
   }
 
   return (
@@ -63,12 +63,12 @@ const Cell = ({
           onBlur={handleBlur}
           onFocus={() => setEdit(true)}
           value={value}
-          type='text'
+          type="text"
           onChange={handleChange}
         />
       )}
     </>
-  )
-}
+  );
+};
 
-export default memo(Cell)
+export default memo(Cell);
