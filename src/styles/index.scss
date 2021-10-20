@@ -1,0 +1,134 @@
+$light-gray: rgb(246, 246, 246);
+$light-gray-2: rgb(253, 253, 253);
+$dark-gray: rgb(205, 205, 205);
+$dark-gray-2: rgb(230, 230, 230);
+$green: rgb(50, 139, 88);
+$dark-green: rgb(12, 101, 55);
+$red: rgb(211, 80, 80);
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('./fonts/NotoSans-BoldItalic.woff2') format('woff2'),
+    url('./fonts/NotoSans-BoldItalic.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('./fonts/NotoSans-Italic.woff2') format('woff2'),
+    url('./fonts/NotoSans-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('./fonts/NotoSans-Bold.woff2') format('woff2'),
+    url('./fonts/NotoSans-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('./fonts/NotoSans.woff2') format('woff2'),
+    url('./fonts/NotoSans.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Noto Sans', sans-serif;
+  color: rgb(80, 80, 80);
+}
+* {
+  box-sizing: border-box;
+}
+.title {
+  background-color: $green;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+.function-bar {
+  border: 1px solid $dark-gray;
+  padding: 8px 0 4px;
+  display: flex;
+  button {
+    vertical-align: top;
+    background: none;
+    border: none;
+    outline: none;
+    color: $dark-gray;
+    cursor: pointer;
+  }
+  .btn-del {
+    padding: 3px 4px 0;
+    font-size: 24px;
+    &.active {
+      color: $red;
+    }
+  }
+  .btn-check {
+    padding: 6px 4px;
+    font-size: 16px;
+    &.active {
+      color: $green;
+    }
+  }
+  input {
+    outline: none;
+    border: none;
+    border-left: 1px solid $dark-gray;
+    margin-left: 10px;
+    padding: 0 10px;
+    height: 26px;
+    width: 100%;
+  }
+  span {
+    display: flex;
+    i {
+      font-size: 22px;
+      vertical-align: top;
+      line-height: 30px;
+    }
+  }
+}
+
+.sheet {
+  display: grid;
+  grid-template-columns: 32px repeat(9, 1fr);
+  .header {
+    text-align: center;
+    background: $light-gray;
+    background: linear-gradient(0, $light-gray 0%, $light-gray-2 100%);
+    font-size: 14px;
+    padding: 4px 0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: $dark-gray-2;
+    &.first {
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+  input {
+    border-width: 1px;
+    border-style: solid;
+    border-color: $dark-gray;
+    outline-color: $dark-green;
+  }
+}
